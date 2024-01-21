@@ -1,6 +1,9 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client._Imports).Assembly }">
+﻿<Router AppAssembly="@typeof(Program).Assembly"
+        AdditionalAssemblies="new[] { typeof(Client._Imports).Assembly, typeof(Todo).Assembly }">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
+    @*     Found is a bit Legacy of the Blazor WebAssembly that return NotFound Empty. But in blazor we create 404 NotFoundPage Empty Already *@
+    @*     <NotFound></NotFound> *@
 </Router>

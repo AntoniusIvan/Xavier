@@ -1,7 +1,21 @@
+using Blazored.LocalStorage;
 using DMSBlazor.Client.Pages;
 using DMSBlazor.Components;
+using HybridDMS.Components.Authentication;
+using HybridDMS.Components.Data;
+using HybridDMS.Components.Pages;
+using Microsoft.Maui.Networking;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddHttpClient();
+
+builder.Services.AddSingleton<TodoService>();
+builder.Services.AddSingleton<IConnectivity, BlazorConnectivity>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -30,6 +44,16 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Counter).Assembly);
+    .AddAdditionalAssemblies(typeof(Counter).Assembly, typeof(Todo).Assembly);
 
 app.Run();
+
+public class BlazorConnectivity : IConnectivity
+{
+    public IEnumerable<ConnectionProfile> ConnectionProfiles => null;
+
+    public NetworkAccess NetworkAccess => NetworkAccess.Internet;
+
+    //now this is rendering blazor server. If Client interaction (ClientSide), invoke some javascript
+    public event EventHandler<ConnectivityChangedEventArgs> ConnectivityChanged;
+}
