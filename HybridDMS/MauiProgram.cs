@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HybridDMS.Components.Data;
+using Microsoft.Extensions.Logging;
 
 namespace HybridDMS
 {
@@ -17,9 +18,13 @@ namespace HybridDMS
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<TodoService>();
+            //05:03 Why Connectivity is singleton? because we only need 1 instance of it in whole apps.
+            builder.Services.AddSingleton<IConnectivity>(c =>
+                Connectivity.Current);
 
             return builder.Build();
         }
