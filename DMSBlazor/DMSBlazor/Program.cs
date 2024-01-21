@@ -4,6 +4,7 @@ using DMSBlazor.Components;
 using HybridDMS.Components.Authentication;
 using HybridDMS.Components.Data;
 using HybridDMS.Components.Pages;
+using HybridDMS.Components.Services;
 using Microsoft.Maui.Networking;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<TodoService>();
 builder.Services.AddSingleton<IConnectivity, BlazorConnectivity>();
+
+builder.Services.AddScoped<CatalogService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
