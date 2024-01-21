@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JIRMDataManager.Library", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JIRMApi", "JIRMApi\JIRMApi.csproj", "{C519F385-F4D7-43A6-BF4C-F783DEBB7B68}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIRMDesktopUI.Library", "AIRMDesktopUI.Library\AIRMDesktopUI.Library.csproj", "{227D9258-104C-49CE-BDC1-69A657201E23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIRMDesktopUI", "AIRMDesktopUI\AIRMDesktopUI.csproj", "{72214228-0903-4C7D-9EDB-5E51F4D48A4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,19 @@ Global
 		{C519F385-F4D7-43A6-BF4C-F783DEBB7B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C519F385-F4D7-43A6-BF4C-F783DEBB7B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C519F385-F4D7-43A6-BF4C-F783DEBB7B68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{227D9258-104C-49CE-BDC1-69A657201E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{227D9258-104C-49CE-BDC1-69A657201E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{227D9258-104C-49CE-BDC1-69A657201E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{227D9258-104C-49CE-BDC1-69A657201E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72214228-0903-4C7D-9EDB-5E51F4D48A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72214228-0903-4C7D-9EDB-5E51F4D48A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72214228-0903-4C7D-9EDB-5E51F4D48A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72214228-0903-4C7D-9EDB-5E51F4D48A4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6D99C73-87EC-4628-8056-6EA7B6367ABD}
 	EndGlobalSection
 EndGlobal
