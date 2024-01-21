@@ -39,5 +39,13 @@
         </BlazorWebView>
     </ContentPage>
 
+    <ContentPage Title="Catalog">
+        <BlazorWebView HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type pagesShared:Catalog}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+    </ContentPage>
+
 
 </TabbedPage>
