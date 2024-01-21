@@ -1,0 +1,159 @@
+﻿@page "/todo"
+@rendermode Microsoft.AspNetCore.Components.Web.RenderMode.InteractiveServer
+
+
+@using HybridCisBCRM.Components.Data;
+@using Microsoft.Maui.Networking
+@using System.Text.Json
+@inject TodoService TodoService
+@inject IConnectivity ConnectivityService
+
+<h3>Todo(@todos.Count(todo => !todo.IsDone))</h3>
+
+@if (!hasInternet)
+{
+    <p>NO INTERNET!!!! </p>
+}
+
+<ul>
+
+    @foreach (var todo in todos)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.IsDone" />
+            <input @bind="todo.Title" />
+        </li>
+    }
+</ul>
+
+<input placeholder="Something todo" @bind="newTodo" />
+<button @onclick="AddTodo">Add Todo</button>
+
+<button @onclick="Save">Save</button>
+
+<button @onclick="Upload">Upload</button>
+
+
+<button @onclick="QueryToken">QueryToken</button>
+
+
+
+@code {
+    //The Rendering Not Workiing In Blazor Server
+    List<TodoItem> todos = new List<TodoItem>();
+    string newTodo;
+    bool hasInternet = true;
+    // Declare and initialize a TodoModel variable
+    public class Trampolin
+    {
+        public int userId { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
+        public bool completed { get; set; }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var items = TodoService.LoadItems();
+        todos.AddRange(items);
+    }
+
+    void Upload()
+    {
+        if (ConnectivityService is null)
+            return;
+
+        hasInternet = ConnectivityService.NetworkAccess == NetworkAccess.Internet;
+    }
+
+
+    async Task QueryToken()
+    {
+
+        // Create the JSON payload
+        var jsonPayload = new
+        {
+            app_id = "apiadmin@fonusa.co.id",
+            app_secret = "i8Gf8kY82mG0XJII"
+        };
+
+        try
+        {
+            // Convert the payload to a JSON string
+            var jsonString = JsonSerializer.Serialize(jsonPayload);
+
+            // Create an HttpRequestMessage with the necessary details
+            var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    //RequestUri = new System.Uri("shttp://a21e0d419b2744501b3b70a46672fa04-1339232780.ap-southeast-1.elb.amazonaws.com:8082/"),
+
+                    RequestUri = new System.Uri("https://jsonplaceholder.typicode.com/todos/1"),
+                    //Content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json")
+                };
+
+            // Use HttpClient to send the request
+            using (var httpClient = new HttpClient())
+            {
+                var response = httpClient.SendAsync(request).Result;
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read and parse the response content as JSON
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    // Deserialize the JSON using System.Text.Json.JsonSerializer
+                    var todoObject = System.Text.Json.JsonSerializer.Deserialize<Trampolin>(jsonResponse);
+
+                    if (string.IsNullOrWhiteSpace(todoObject.title))
+                        return;
+
+                    todos.Add(new TodoItem
+                        {
+                            Title = todoObject.title
+                        });
+
+                    newTodo = string.Empty;
+                    // Now you can access properties of the deserialized object
+                    Console.WriteLine($"Todo Title: {todoObject.title}");
+                    Console.WriteLine($"Completed: {todoObject.completed}");
+                    await Task.FromResult("OK");
+                }
+                else
+                {
+                    // Handle the case where the request was not successful
+                    // Log or display an error message
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    await Task.FromResult("NotOK");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur during the request
+            // Log or display an error message
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+
+    void Save()
+    {
+        TodoService.SaveItems(todos);
+    }
+
+    void AddTodo()
+    {
+        if (string.IsNullOrWhiteSpace(newTodo))
+            return;
+
+        todos.Add(new TodoItem
+            {
+                Title = newTodo
+            });
+
+        newTodo = string.Empty;
+    }
+}
