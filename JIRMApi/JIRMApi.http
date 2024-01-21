@@ -1,0 +1,6 @@
+@JIRMApi_HostAddress = http://localhost:5187
+
+GET {{JIRMApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
