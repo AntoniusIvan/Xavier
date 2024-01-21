@@ -1,6 +1,6 @@
-﻿using HybridCisBCRM.Components.Models;
+﻿using HybridDMS.Components.Models;
 
-namespace HybridCisBCRM.Components.Authentication
+namespace HybridDMS.Components.Authentication
 {
     public interface IAuthenticationService
     {

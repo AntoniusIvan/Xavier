@@ -1,4 +1,4 @@
-﻿namespace HybridCisBCRM.Components.Models
+﻿namespace HybridDMS.Components.Models
 {
   public class AuthenticatedUserModel
   {

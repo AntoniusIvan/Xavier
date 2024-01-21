@@ -1,11 +1,11 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using HybridCisBCRM.Components.Models;
+using HybridDMS.Components.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 
-namespace HybridCisBCRM.Components.Authentication
+namespace HybridDMS.Components.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {

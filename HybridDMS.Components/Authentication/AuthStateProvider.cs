@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 
-namespace HybridCisBCRM.Components.Authentication
+namespace HybridDMS.Components.Authentication
 {
     public class AuthStateProvider : AuthenticationStateProvider
     {

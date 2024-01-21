@@ -4,7 +4,7 @@ using System.Data;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace HybridCisBCRM.Components.Authentication
+namespace HybridDMS.Components.Authentication
 {
   public static class JwtParser
   {
