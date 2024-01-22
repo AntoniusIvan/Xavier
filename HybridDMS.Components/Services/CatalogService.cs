@@ -8,23 +8,23 @@ public class CatalogService(HttpClient httpClient)
 {
     private readonly string remoteServiceBaseUrl = "api/v1/catalog/";
 
-    public Task<CatalogItem?> GetCatalogItem(int id)
+    public Task<CatalogProduct?> GetCatalogProduct(int id)
     {
         var uri = $"{remoteServiceBaseUrl}items/{id}";
-        return httpClient.GetFromJsonAsync<CatalogItem>(uri);
+        return httpClient.GetFromJsonAsync<CatalogProduct>(uri);
     }
 
-    public async Task<CatalogResult> GetCatalogItems(int pageIndex, int pageSize, int? brand, int? type)
+    public async Task<CatalogResult> GetCatalogProducts(int pageIndex, int pageSize, int? brand, int? type)
     {
-        var uri = GetAllCatalogItemsUri(remoteServiceBaseUrl, pageIndex, pageSize, brand, type);
+        var uri = GetAllCatalogProductsUri(remoteServiceBaseUrl, pageIndex, pageSize, brand, type);
         var result = await httpClient.GetFromJsonAsync<CatalogResult>(uri);
         return result!;
     }
 
-    public async Task<List<CatalogItem>> GetCatalogItems(IEnumerable<int> ids)
+    public async Task<List<CatalogProduct>> GetCatalogProducts(IEnumerable<int> ids)
     {
         var uri = $"{remoteServiceBaseUrl}items/by?ids={string.Join("&ids=", ids)}";
-        var result = await httpClient.GetFromJsonAsync<List<CatalogItem>>(uri);
+        var result = await httpClient.GetFromJsonAsync<List<CatalogProduct>>(uri);
         return result!;
     }
 
@@ -42,14 +42,14 @@ public class CatalogService(HttpClient httpClient)
         return result!;
     }
 
-    public async Task<IEnumerable<CatalogItemType>> GetTypes()
+    public async Task<IEnumerable<CatalogProductType>> GetTypes()
     {
         var uri = $"{remoteServiceBaseUrl}catalogTypes";
-        var result = await httpClient.GetFromJsonAsync<CatalogItemType[]>(uri);
+        var result = await httpClient.GetFromJsonAsync<CatalogProductType[]>(uri);
         return result!;
     }
 
-    private static string GetAllCatalogItemsUri(string baseUri, int pageIndex, int pageSize, int? brand, int? type)
+    private static string GetAllCatalogProductsUri(string baseUri, int pageIndex, int pageSize, int? brand, int? type)
     {
         string filterQs;
 

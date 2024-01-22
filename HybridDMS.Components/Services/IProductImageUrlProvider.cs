@@ -4,8 +4,8 @@ namespace HybridDMS.Components.Services;
 
 public interface IProductImageUrlProvider
 {
-    string GetProductImageUrl(CatalogItem item)
-        => GetProductImageUrl(item.Id);
+    string GetProductImageUrl(CatalogProduct product)
+        => GetProductImageUrl(product.Id);
 
     string GetProductImageUrl(int productId);
 }

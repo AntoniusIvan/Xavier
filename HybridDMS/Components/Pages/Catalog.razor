@@ -67,20 +67,20 @@
     public int? BrandId { get; set; }
 
     [SupplyParameterFromQuery(Name = "type")]
-    public int? ItemTypeId { get; set; }
+    public int? ProductTypeId { get; set; }
 
     CatalogResult? catalogResult;
 
     static IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
         => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / PageSize));
 
-    // protected override async Task OnParametersSetAsync()
-    // {
-    //     // catalogResult = await CatalogService.GetCatalogItems(
-    //     //     Page.GetValueOrDefault(1) - 1,
-    //     //     PageSize,
-    //     //     BrandId,
-    //     //     ItemTypeId);
-    // }
+    protected override async Task OnParametersSetAsync()
+    {
+        catalogResult = await CatalogService.GetCatalogProducts(
+            Page.GetValueOrDefault(1) - 1,
+            PageSize,
+            BrandId,
+            ProductTypeId);
+    }
 
 }

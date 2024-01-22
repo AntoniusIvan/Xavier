@@ -1,6 +1,6 @@
 ﻿namespace HybridDMS.Components.Catalog;
 
-public record CatalogItem(
+public record CatalogProduct(
     int Id,
     string Name,
     string Description,
@@ -9,8 +9,8 @@ public record CatalogItem(
     int CatalogBrandId,
     CatalogBrand CatalogBrand,
     int CatalogTypeId,
-    CatalogItemType CatalogType);
+    CatalogProductType CatalogType);
 
-public record CatalogResult(int PageIndex, int PageSize, int Count, List<CatalogItem> Data);
+public record CatalogResult(int PageIndex, int PageSize, int Count, List<CatalogProduct> Data);
 public record CatalogBrand(int Id, string Brand);
-public record CatalogItemType(int Id, string Type);
+public record CatalogProductType(int Id, string Type);
