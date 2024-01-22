@@ -47,7 +47,7 @@
         </BlazorWebView>
     </ContentPage>
 
-    <ContentPage Title="OldCatalog">
+    <ContentPage Title="HybridCatalog">
         <BlazorWebView HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
                 <RootComponent Selector="#app" ComponentType="{x:Type pages:Catalog}" />

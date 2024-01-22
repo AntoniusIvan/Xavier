@@ -1,4 +1,6 @@
 ﻿@page "/"
+@* @inject NavigationManager Nav
+@inject CatalogService CatalogService *@
 
 @inherits LayoutComponentBase
 
@@ -30,6 +32,30 @@
     private void IncrementCount()
     {
         currentCount++;
+    }
+    const int PageSize = 9;
+
+    [SupplyParameterFromQuery]
+    public int? Page { get; set; }
+
+    [SupplyParameterFromQuery(Name = "brand")]
+    public int? BrandId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "type")]
+    public int? ItemTypeId { get; set; }
+
+    CatalogResult? catalogResult;
+
+    static IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
+        => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / PageSize));
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // catalogResult = await CatalogService.GetCatalogItems(
+        //     Page.GetValueOrDefault(1) - 1,
+        //     PageSize,
+        //     BrandId,
+        //     ItemTypeId);
     }
 
 }
