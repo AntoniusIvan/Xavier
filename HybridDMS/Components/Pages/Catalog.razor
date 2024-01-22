@@ -1,8 +1,6 @@
 ﻿@page "/"
-@* @inject NavigationManager Nav
-@inject CatalogService CatalogService *@
-
-@inherits LayoutComponentBase
+@* @inject NavigationManager Nav*@
+@* @inject CatalogService CatalogService  *@
 
 <HeaderBar />
 <PageTitle>Northern Mountains</PageTitle>
@@ -13,6 +11,33 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<div class="catalog">
+    @* <CatalogSearch BrandId="@BrandId" ItemTypeId="@ItemTypeId" /> *@
+@* 
+    @if (catalogResult is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div>
+            <div class="catalog-items">
+                @foreach (var item in catalogResult.Data)
+                {
+                    <CatalogListItem Item="@item" />
+                }
+            </div>
+
+            <div class="page-links">
+                @foreach (var pageIndex in GetVisiblePageIndexes(catalogResult))
+                {
+                    @* <NavLink ActiveClass="active-page" Match="@NavLinkMatch.All" href="@Nav.GetUriWithQueryParameter("page", pageIndex == 1 ? null : pageIndex)">@pageIndex</NavLink> *@
+                @* } *@
+            @* </div> *@
+        @* </div> *@
+    @* } *@
+</div>
 
 
 @* <div class="eshop-header-hero">
@@ -49,13 +74,13 @@
     static IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
         => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / PageSize));
 
-    protected override async Task OnParametersSetAsync()
-    {
-        // catalogResult = await CatalogService.GetCatalogItems(
-        //     Page.GetValueOrDefault(1) - 1,
-        //     PageSize,
-        //     BrandId,
-        //     ItemTypeId);
-    }
+    // protected override async Task OnParametersSetAsync()
+    // {
+    //     // catalogResult = await CatalogService.GetCatalogItems(
+    //     //     Page.GetValueOrDefault(1) - 1,
+    //     //     PageSize,
+    //     //     BrandId,
+    //     //     ItemTypeId);
+    // }
 
 }
