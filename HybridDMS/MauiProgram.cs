@@ -1,4 +1,5 @@
 ﻿using HybridDMS.Components.Data;
+using HybridDMS.Components.Services;
 using Microsoft.Extensions.Logging;
 
 namespace HybridDMS
@@ -21,6 +22,7 @@ namespace HybridDMS
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddHttpClient<CatalogService>();
             builder.Services.AddSingleton<TodoService>();
             //05:03 Why Connectivity is singleton? because we only need 1 instance of it in whole apps.
             builder.Services.AddSingleton<IConnectivity>(c =>

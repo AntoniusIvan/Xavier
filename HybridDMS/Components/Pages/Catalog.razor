@@ -1,6 +1,6 @@
 ﻿@page "/"
-@* @inject NavigationManager Nav*@
-@* @inject CatalogService CatalogService  *@
+@inject NavigationManager Nav
+@inject CatalogService CatalogService 
 
 <HeaderBar />
 <PageTitle>Northern Mountains</PageTitle>
@@ -14,12 +14,12 @@
 
 <div class="catalog">
     @* <CatalogSearch BrandId="@BrandId" ItemTypeId="@ItemTypeId" /> *@
-@* 
+ 
     @if (catalogResult is null)
     {
         <p>Loading...</p>
     }
-    else
+    @*    else
     {
         <div>
             <div class="catalog-items">
