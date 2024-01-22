@@ -7,13 +7,13 @@
              x:Class="HybridDMS.MainPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <ContentPage Title="Home">
+    <!--<ContentPage Title="Home">
         <BlazorWebView HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
                 <RootComponent Selector="#app" ComponentType="{x:Type pages:Home}" />
             </BlazorWebView.RootComponents>
         </BlazorWebView>
-    </ContentPage>
+    </ContentPage>-->
 
     <ContentPage Title="Counter">
         <BlazorWebView HostPage="wwwroot/index.html">
@@ -42,7 +42,15 @@
     <ContentPage Title="Catalog">
         <BlazorWebView HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
-                <RootComponent Selector="#app" ComponentType="{x:Type pagesShared:Catalog}" />
+                <RootComponent Selector="#app" ComponentType="{x:Type pagesShared:OldCatalog}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+    </ContentPage>
+
+    <ContentPage Title="OldCatalog">
+        <BlazorWebView HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type pages:Catalog}" />
             </BlazorWebView.RootComponents>
         </BlazorWebView>
     </ContentPage>

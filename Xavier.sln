@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIRMDesktopUI.Library", "AI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIRMDesktopUI", "AIRMDesktopUI\AIRMDesktopUI.csproj", "{72214228-0903-4C7D-9EDB-5E51F4D48A4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMSBlazor", "DMSBlazor\DMSBlazor\DMSBlazor.csproj", "{4A0C3707-EABB-4ED0-B687-27E1E5FEF47D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMSBlazor", "DMSBlazor\DMSBlazor\DMSBlazor.csproj", "{4A0C3707-EABB-4ED0-B687-27E1E5FEF47D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMSBlazor.Client", "DMSBlazor\DMSBlazor.Client\DMSBlazor.Client.csproj", "{50D19D27-B98F-4530-9449-A28DD70D7C65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMSBlazor.Client", "DMSBlazor\DMSBlazor.Client\DMSBlazor.Client.csproj", "{50D19D27-B98F-4530-9449-A28DD70D7C65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HybridDMS", "HybridDMS\HybridDMS.csproj", "{FB2B1630-0B13-4A50-8B70-F7C382D4F300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HybridDMS", "HybridDMS\HybridDMS.csproj", "{FB2B1630-0B13-4A50-8B70-F7C382D4F300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HybridDMS.Components", "HybridDMS.Components\HybridDMS.Components.csproj", "{AB100326-8523-4754-B730-64B906BFCBC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HybridDMS.Components", "HybridDMS.Components\HybridDMS.Components.csproj", "{AB100326-8523-4754-B730-64B906BFCBC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
