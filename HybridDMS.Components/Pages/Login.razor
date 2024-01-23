@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using HybridDMS.Components.Helpers
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Text.Json
 @using System.Text
@@ -11,8 +12,8 @@
     <ValidationSummary />
 
     <div class="form-group">
-        <label for="email">Email address</label>
-        <InputText id="email" class="form-control" @bind-Value="loginModel.Username" />
+        <label for="username">Username</label>
+        <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
     </div>
 
     <div class="form-group">
@@ -28,20 +29,36 @@
 
     private async Task HandleValidSubmit()
     {
-        var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
-        {
-            username = loginModel.Username,
-            password = loginModel.Password,
-            grant_type = "password"
-        }), Encoding.UTF8, "application/json");
+        // Construct the URL using UriHelper
+        var tokenEndpoint = UriHelper.CombineUri("https://ijcowa.azurewebsites.net/", "token");
 
-        var responseJson = await HttpClient.PostAsync("https://ijcowa.azurewebsites.net/token?username=antonius.ivan%40gmail.com&password=User1234%21", jsonContent);
+        // Create the query parameters
+        var queryParams = new Dictionary<string, string>
+            {
+                { "username", loginModel.Username },
+                { "password", loginModel.Password },
+                { "grant_type", "password" }
+            };
+
+        // Build the query string
+        var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
+
+        // Combine the URL and query string
+        tokenEndpoint = $"{tokenEndpoint}?{queryString}";
+
+        // Combine the URL and query parameters
+        //var fullUrl = UriHelper.CombineUri(tokenEndpoint);
+
+
+        // Make the request
+        var responseJson = await HttpClient.PostAsync(tokenEndpoint, null);
 
         if (responseJson.IsSuccessStatusCode)
         {
             var tokenResponse = await responseJson.Content.ReadAsStringAsync();
             // Deserialize tokenResponse if necessary using System.Text.Json.JsonSerializer
             // For example: var token = System.Text.Json.JsonSerializer.Deserialize<TokenResponse>(tokenResponse);
+            //password = tokenResponse;
         }
         else
         {
@@ -62,55 +79,28 @@
             // Create an HttpRequestMessage with the necessary details
             var request = new HttpRequestMessage
                 {
-                    Method = HttpMethod.Get,
-                    //RequestUri = new System.Uri("shttp://a21e0d419b2744501b3b70a46672fa04-1339232780.ap-southeast-1.elb.amazonaws.com:8082/"),
-
-                    RequestUri = new System.Uri("https://jsonplaceholder.typicode.com/todos/1"),
-                    //Content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json")
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri("https://ijcowa.azurewebsites.net/api/v1/token"),
+                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json")
                 };
 
-            // Use HttpClient to send the request
-            using (var httpClient = new HttpClient())
+            // Send the request and get the response
+            var response = await HttpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
             {
-                var response = httpClient.SendAsync(request).Result;
-
-                // Check if the request was successful
-                if (response.IsSuccessStatusCode)
-                {
-                    // Read and parse the response content as JSON
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-
-                    // Deserialize the JSON using System.Text.Json.JsonSerializer
-                    // var todoObject = System.Text.Json.JsonSerializer.Deserialize<Trampolin>(jsonResponse);
-
-                    // if (string.IsNullOrWhiteSpace(todoObject.title))
-                    //     return;
-
-                    // todos.Add(new TodoItem
-                    //     {
-                    //         Title = todoObject.title
-                    //     });
-
-                    // newTodo = string.Empty;
-                    // Now you can access properties of the deserialized object
-                    // Console.WriteLine($"Todo Title: {todoObject.title}");
-                    // Console.WriteLine($"Completed: {todoObject.completed}");
-                    await Task.FromResult("OK");
-                }
-                else
-                {
-                    // Handle the case where the request was not successful
-                    // Log or display an error message
-                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                    await Task.FromResult("NotOK");
-                }
+                var responseContent = await response.Content.ReadAsStringAsync();
+                // Deserialize responseContent if necessary using System.Text.Json.JsonSerializer
+                // For example: var data = System.Text.Json.JsonSerializer.Deserialize<ResponseData>(responseContent);
+            }
+            else
+            {
+                // Handle the error, for example, show a validation message
             }
         }
         catch (Exception ex)
         {
-            // Handle any exceptions that may occur during the request
-            // Log or display an error message
-            Console.WriteLine($"Exception: {ex.Message}");
+            // Handle the exception, for example, log it
         }
     }
 
