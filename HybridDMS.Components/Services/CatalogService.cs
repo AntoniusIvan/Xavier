@@ -1,21 +1,28 @@
 ﻿using System.Net.Http.Json;
 using System.Web;
 using HybridDMS.Components.Catalog;
+using HybridDMS.Components.Helpers;
 
 namespace HybridDMS.Components.Services;
 
 public class CatalogService(HttpClient httpClient)
 {
     private readonly string remoteServiceBaseUrl = "api/v1/catalog/";
+    private const string ApiUrlBase = "api/v1/Catalog";
 
     public Task<CatalogProduct?> GetCatalogProduct(int id)
     {
-        var uri = $"{remoteServiceBaseUrl}items/{id}";
+        var uri2 = UriHelper.CombineUri(GlobalSetting.Instance.GatewayShoppingEndpoint, $"{ApiUrlBase}/products");
+
+
+        var uri = $"{remoteServiceBaseUrl}products/{id}";
         return httpClient.GetFromJsonAsync<CatalogProduct>(uri);
     }
 
     public async Task<CatalogResult> GetCatalogProducts(int pageIndex, int pageSize, int? brand, int? type)
     {
+        var uri2 = UriHelper.CombineUri(GlobalSetting.Instance.GatewayShoppingEndpoint, $"{ApiUrlBase}/products");
+
         var uri = GetAllCatalogProductsUri(remoteServiceBaseUrl, pageIndex, pageSize, brand, type);
         var result = await httpClient.GetFromJsonAsync<CatalogResult>(uri);
         return result!;
@@ -23,14 +30,14 @@ public class CatalogService(HttpClient httpClient)
 
     public async Task<List<CatalogProduct>> GetCatalogProducts(IEnumerable<int> ids)
     {
-        var uri = $"{remoteServiceBaseUrl}items/by?ids={string.Join("&ids=", ids)}";
+        var uri = $"{remoteServiceBaseUrl}products/by?ids={string.Join("&ids=", ids)}";
         var result = await httpClient.GetFromJsonAsync<List<CatalogProduct>>(uri);
         return result!;
     }
 
-    public Task<CatalogResult> GetCatalogItemsWithSemanticRelevance(int page, int take, string text)
+    public Task<CatalogResult> GetCatalogProductsWithSemanticRelevance(int page, int take, string text)
     {
-        var url = $"{remoteServiceBaseUrl}items/withsemanticrelevance/{HttpUtility.UrlEncode(text)}?pageIndex={page}&pageSize={take}";
+        var url = $"{remoteServiceBaseUrl}products/withsemanticrelevance/{HttpUtility.UrlEncode(text)}?pageIndex={page}&pageSize={take}";
         var result = httpClient.GetFromJsonAsync<CatalogResult>(url);
         return result!;
     }
@@ -69,6 +76,6 @@ public class CatalogService(HttpClient httpClient)
             filterQs = string.Empty;
         }
 
-        return $"{baseUri}items{filterQs}?pageIndex={pageIndex}&pageSize={pageSize}";
+        return $"{baseUri}products{filterQs}?pageIndex={pageIndex}&pageSize={pageSize}";
     }
 }

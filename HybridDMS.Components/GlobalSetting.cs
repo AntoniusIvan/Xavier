@@ -1,10 +1,10 @@
 ﻿
 
-namespace HybridDMS
+namespace HybridDMS.Components
 {
     public class GlobalSetting
     {
-        public const string DefaultEndpoint = "10.64.5.151";
+        public const string DefaultEndpoint = "https://localhost:7224";
 
         private string _baseIdentityEndpoint;
         private string _baseGatewayShoppingEndpoint;
