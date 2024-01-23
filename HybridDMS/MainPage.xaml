@@ -55,5 +55,12 @@
         </BlazorWebView>
     </ContentPage>
 
+    <ContentPage Title="Login">
+        <BlazorWebView HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type pagesShared:Login}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+    </ContentPage>
 
 </TabbedPage>

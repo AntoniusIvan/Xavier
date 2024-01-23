@@ -1,0 +1,122 @@
+﻿@page "/login"
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Text.Json
+@using System.Text
+@inject HttpClient HttpClient
+
+<h1>Login</h1>
+
+<EditForm Model="@loginModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <InputText id="email" class="form-control" @bind-Value="loginModel.Username" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" class="form-control" @bind-Value="loginModel.Password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    private async Task HandleValidSubmit()
+    {
+        var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+        {
+            username = loginModel.Username,
+            password = loginModel.Password,
+            grant_type = "password"
+        }), Encoding.UTF8, "application/json");
+
+        var responseJson = await HttpClient.PostAsync("https://ijcowa.azurewebsites.net/token?username=antonius.ivan%40gmail.com&password=User1234%21", jsonContent);
+
+        if (responseJson.IsSuccessStatusCode)
+        {
+            var tokenResponse = await responseJson.Content.ReadAsStringAsync();
+            // Deserialize tokenResponse if necessary using System.Text.Json.JsonSerializer
+            // For example: var token = System.Text.Json.JsonSerializer.Deserialize<TokenResponse>(tokenResponse);
+        }
+        else
+        {
+            // Handle the error, for example, show a validation message
+        }
+        // Create the JSON payload
+        var jsonPayload = new
+        {
+            app_id = "apiadmin@fonusa.co.id",
+            app_secret = "i8Gf8kY82mG0XJII"
+        };
+
+        try
+        {
+            // Convert the payload to a JSON string
+            var jsonString = JsonSerializer.Serialize(jsonPayload);
+
+            // Create an HttpRequestMessage with the necessary details
+            var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    //RequestUri = new System.Uri("shttp://a21e0d419b2744501b3b70a46672fa04-1339232780.ap-southeast-1.elb.amazonaws.com:8082/"),
+
+                    RequestUri = new System.Uri("https://jsonplaceholder.typicode.com/todos/1"),
+                    //Content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json")
+                };
+
+            // Use HttpClient to send the request
+            using (var httpClient = new HttpClient())
+            {
+                var response = httpClient.SendAsync(request).Result;
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read and parse the response content as JSON
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    // Deserialize the JSON using System.Text.Json.JsonSerializer
+                    // var todoObject = System.Text.Json.JsonSerializer.Deserialize<Trampolin>(jsonResponse);
+
+                    // if (string.IsNullOrWhiteSpace(todoObject.title))
+                    //     return;
+
+                    // todos.Add(new TodoItem
+                    //     {
+                    //         Title = todoObject.title
+                    //     });
+
+                    // newTodo = string.Empty;
+                    // Now you can access properties of the deserialized object
+                    // Console.WriteLine($"Todo Title: {todoObject.title}");
+                    // Console.WriteLine($"Completed: {todoObject.completed}");
+                    await Task.FromResult("OK");
+                }
+                else
+                {
+                    // Handle the case where the request was not successful
+                    // Log or display an error message
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    await Task.FromResult("NotOK");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur during the request
+            // Log or display an error message
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+
+    private class LoginModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}
